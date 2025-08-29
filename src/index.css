@@ -1,0 +1,198 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Cantilever Design System - Beautiful architectural marketplace */
+
+@layer base {
+  :root {
+    /* Luxury brownish theme - Warm and sophisticated */
+    --background: 35 15% 96%;
+    --foreground: 25 30% 15%;
+
+    --card: 35 20% 98%;
+    --card-foreground: 25 30% 15%;
+
+    --popover: 35 20% 98%;
+    --popover-foreground: 25 30% 15%;
+
+    /* Brand primary - Rich bronze to gold gradient */
+    --primary: 35 60% 45%;
+    --primary-foreground: 35 15% 96%;
+    --primary-glow: 42 85% 55%;
+
+    /* Secondary colors - Warm creams and beiges */
+    --secondary: 35 25% 90%;
+    --secondary-foreground: 25 30% 15%;
+
+    --muted: 35 20% 92%;
+    --muted-foreground: 25 15% 45%;
+
+    --accent: 42 40% 88%;
+    --accent-foreground: 25 30% 15%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 35 15% 96%;
+
+    --border: 35 15% 85%;
+    --input: 35 15% 88%;
+    --ring: 35 60% 45%;
+
+    --radius: 0.5rem;
+
+    /* Gradients for luxury brownish effects */
+    --gradient-primary: linear-gradient(135deg, hsl(35 60% 45%), hsl(42 85% 55%));
+    --gradient-hero: radial-gradient(70rem 70rem at 10% -10%, hsla(35, 60%, 45%, 0.12), transparent),
+                     radial-gradient(60rem 60rem at 100% 0%, hsla(42, 85%, 55%, 0.08), transparent);
+    --gradient-glass: linear-gradient(135deg, hsla(35, 20%, 98%, 0.8), hsla(35, 15%, 96%, 0.4));
+    --gradient-card: linear-gradient(135deg, hsla(35, 20%, 98%, 0.9), hsla(35, 15%, 96%, 0.7));
+
+    /* Shadows and effects */
+    --shadow-elegant: 0 4px 6px -1px hsla(35, 60%, 45%, 0.1), 0 2px 4px -1px hsla(35, 60%, 45%, 0.06);
+    --shadow-glow: 0 10px 30px -10px hsla(35, 60%, 45%, 0.3);
+    --blur-glass: blur(16px);
+
+    /* Sidebar (keeping existing) */
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    /* Dark mode - Rich charcoal with bronze accents */
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 35 60% 45%;
+    --primary-foreground: 35 15% 96%;
+    --primary-glow: 42 85% 55%;
+
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 35 60% 45%;
+    /* Dark mode gradients and effects - Now using brownish theme */
+    --gradient-primary: linear-gradient(135deg, hsl(35 60% 45%), hsl(42 85% 55%));
+    --gradient-hero: radial-gradient(70rem 70rem at 10% -10%, hsla(35, 60%, 45%, 0.12), transparent),
+                     radial-gradient(60rem 60rem at 100% 0%, hsla(42, 85%, 55%, 0.08), transparent);
+    --gradient-glass: linear-gradient(135deg, hsla(0, 0%, 100%, 0.08), hsla(0, 0%, 100%, 0.03));
+    --gradient-card: linear-gradient(135deg, hsla(0, 0%, 100%, 0.06), hsla(0, 0%, 100%, 0.02));
+
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 35 60% 45%;
+    --sidebar-primary-foreground: 35 15% 96%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 35 60% 45%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans;
+  }
+}
+
+@layer components {
+  /* Glass morphism utilities */
+  .glass {
+    @apply bg-white/80 dark:bg-white/5 backdrop-blur border border-gray-200/70 dark:border-white/10;
+  }
+
+  .glass-strong {
+    @apply bg-white/90 dark:bg-neutral-950/70 backdrop-blur-xl border border-gray-200 dark:border-white/10;
+  }
+
+  /* Button variants using design system */
+  .btn-primary {
+    @apply inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-medium;
+    background: var(--gradient-primary);
+    @apply text-primary-foreground shadow-sm;
+    @apply hover:shadow-md active:scale-[0.99] transition-all;
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium;
+    @apply border border-border glass hover:bg-white/90 dark:hover:bg-white/10 transition-all;
+  }
+
+  /* Animation utilities */
+  .animate-fade-in {
+    animation: fadeIn 0.3s ease-out;
+  }
+
+  .animate-scale-in {
+    animation: scaleIn 0.2s ease-out;
+  }
+
+  .hover-lift {
+    @apply transition-transform duration-200 hover:-translate-y-1;
+  }
+}
+
+@layer utilities {
+  /* Text utilities */
+  .line-clamp-1 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+  }
+
+  .line-clamp-2 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
