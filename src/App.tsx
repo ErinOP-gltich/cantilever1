@@ -12,6 +12,7 @@ import CreatorSignUp from "./pages/CreatorSignUp";
 import CreatorUpload from "./pages/CreatorUpload";
 import CreatorEarnings from "./pages/CreatorEarnings";
 import CreatorRequests from "./pages/CreatorRequests";
+import VastuCalculator from "./pages/VastuCalculator";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -32,6 +33,7 @@ const App = () => (
           <Route path="/creator/upload" element={<CreatorUpload />} />
           <Route path="/creator/earnings" element={<CreatorEarnings />} />
           <Route path="/creator/requests" element={<CreatorRequests />} />
+          <Route path="/vastu-calculator" element={<VastuCalculator />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

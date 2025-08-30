@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Search,
   Sparkles,
@@ -297,7 +297,7 @@ function Modal({ open, onClose, asset }: { open: boolean; onClose: () => void; a
 }
 
 // --- Header / Nav -----------------------------------------------------------
-function Navbar({ onToggleMobile, darkMode, toggleDark }: { onToggleMobile: () => void; darkMode: boolean; toggleDark: () => void }) {
+function Navbar({ onToggleMobile, darkMode, toggleDark, navigate }: { onToggleMobile: () => void; darkMode: boolean; toggleDark: () => void; navigate: (path: string) => void }) {
   return (
     <div className="sticky top-0 z-40 border-b border-gray-200/60 dark:border-white/10">
       <div className="absolute inset-0 -z-10 backdrop-blur supports-[backdrop-filter]:bg-white/70 dark:supports-[backdrop-filter]:bg-neutral-950/60" />
@@ -320,12 +320,15 @@ function Navbar({ onToggleMobile, darkMode, toggleDark }: { onToggleMobile: () =
               <span className="font-semibold tracking-tight">Cantilever</span>
             </div>
             <nav className="hidden lg:flex items-center gap-6 ml-8 text-sm text-gray-600 dark:text-gray-300">
-              <a href="#browse" className="hover:text-gray-900 dark:hover:text-white">
+              <a href="#browse" className="hover:text-gray-900 dark:hover:text-white smooth-transition hover-lift">
                 Browse
               </a>
-              <a href="#vastu" className="hover:text-gray-900 dark:hover:text-white">
+              <button 
+                onClick={() => navigate('/vastu-calculator')} 
+                className="hover:text-gray-900 dark:hover:text-white cursor-pointer smooth-transition hover-lift"
+              >
                 Vastu Calculator
-              </a>
+              </button>
             </nav>
             <nav className="hidden md:flex items-center space-x-6">
               <a href="https://cantilever2.vercel.app" className="text-foreground/80 hover:text-primary smooth-transition hover-lift">
@@ -335,9 +338,12 @@ function Navbar({ onToggleMobile, darkMode, toggleDark }: { onToggleMobile: () =
           </div>
           <div className="flex items-center gap-2">
             <nav className="hidden md:flex lg:hidden items-center gap-4 text-sm text-gray-600 dark:text-gray-300 mr-4">
-              <a href="#vastu" className="hover:text-gray-900 dark:hover:text-white">
+              <button 
+                onClick={() => navigate('/vastu-calculator')} 
+                className="hover:text-gray-900 dark:hover:text-white cursor-pointer smooth-transition hover-lift"
+              >
                 Vastu Calculator
-              </a>
+              </button>
             </nav>
             <button
               onClick={toggleDark}
@@ -346,18 +352,18 @@ function Navbar({ onToggleMobile, darkMode, toggleDark }: { onToggleMobile: () =
               {darkMode ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
             </button>
             <Link to="/signin">
-              <GhostButton>
+              <GhostButton className="smooth-transition hover-lift">
                 <LogIn className="h-4 w-4" /> Sign in
               </GhostButton>
             </Link>
             <div className="hidden lg:flex gap-2">
               <Link to="/contact">
-                <GhostButton>
+                <GhostButton className="smooth-transition hover-lift">
                   Contact us
                 </GhostButton>
               </Link>
               <Link to="/about">
-                <GhostButton>
+                <GhostButton className="smooth-transition hover-lift">
                   About us
                 </GhostButton>
               </Link>
@@ -369,7 +375,7 @@ function Navbar({ onToggleMobile, darkMode, toggleDark }: { onToggleMobile: () =
   );
 }
 
-function MobileMenu({ open, onClose }: { open: boolean; onClose: () => void }) {
+function MobileMenu({ open, onClose, navigate }: { open: boolean; onClose: () => void; navigate: (path: string) => void }) {
   if (!open) return null;
   return (
     <div className="md:hidden fixed inset-0 z-40">
@@ -381,7 +387,7 @@ function MobileMenu({ open, onClose }: { open: boolean; onClose: () => void }) {
               className="h-7 w-7 grid place-items-center rounded-xl text-white font-bold" 
               style={{background: 'var(--gradient-primary)'}}
             >
-              C
+              <img src="C:\Users\Aman\Desktop\build-block-vault-main\public\logo.png" alt="Cantilever" className="h-7 w-7" />
             </div>
             <span className="font-semibold">Cantilever</span>
           </div>
@@ -390,16 +396,19 @@ function MobileMenu({ open, onClose }: { open: boolean; onClose: () => void }) {
           </button>
         </div>
         <div className="mt-4 grid gap-2 text-sm">
-          <a href="#browse" className="px-3 py-2 rounded-lg hover:bg-gray-50 dark:hover:bg-white/5" onClick={onClose}>
+          <a href="#browse" className="px-3 py-2 rounded-lg hover:bg-gray-50 dark:hover:bg-white/5 smooth-transition hover-lift" onClick={onClose}>
             Browse
           </a>
-          <a href="#vastu" className="px-3 py-2 rounded-lg hover:bg-gray-50 dark:hover:bg-white/5" onClick={onClose}>
+          <button 
+            onClick={() => { navigate('/vastu-calculator'); onClose(); }} 
+            className="px-3 py-2 rounded-lg hover:bg-gray-50 dark:hover:bg-white/5 w-full text-left smooth-transition hover-lift"
+          >
             Vastu Calculator
-          </a>
-          <a href="#contact" className="px-3 py-2 rounded-lg hover:bg-gray-50 dark:hover:bg-white/5" onClick={onClose}>
+          </button>
+          <a href="#contact" className="px-3 py-2 rounded-lg hover:bg-gray-50 dark:hover:bg-white/5 smooth-transition hover-lift" onClick={onClose}>
             Contact us
           </a>
-          <a href="#about" className="px-3 py-2 rounded-lg hover:bg-gray-50 dark:hover:bg-white/5" onClick={onClose}>
+          <a href="#about" className="px-3 py-2 rounded-lg hover:bg-gray-50 dark:hover:bg-white/5 smooth-transition hover-lift" onClick={onClose}>
             About us
           </a>
         </div>
@@ -479,7 +488,7 @@ function Hero({ query, setQuery }: { query: string; setQuery: (query: string) =>
 }
 
 // --- Features ---------------------------------------------------------------
-function Features() {
+function Features({ navigate }: { navigate: (path: string) => void }) {
   const items = [
     {
       title: "Rigorous QA",
@@ -508,7 +517,8 @@ function Features() {
         {items.map((it) => (
           <div
             key={it.title}
-            className="rounded-3xl glass p-6 shadow-sm"
+            className={`rounded-3xl glass p-6 shadow-sm ${it.title === "Vastu Calculator" ? "cursor-pointer hover:shadow-md transition-shadow" : ""}`}
+            onClick={it.title === "Vastu Calculator" ? () => navigate('/vastu-calculator') : undefined}
           >
             <div 
               className="inline-flex h-10 w-10 items-center justify-center rounded-full text-white shadow-sm"
@@ -821,6 +831,7 @@ export default function Index() {
   const [selected, setSelected] = useState(null);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const mql = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
@@ -855,10 +866,11 @@ export default function Index() {
         onToggleMobile={() => setMobileOpen(true)}
         darkMode={darkMode}
         toggleDark={() => setDarkMode((v) => !v)}
+        navigate={navigate}
       />
-      <MobileMenu open={mobileOpen} onClose={() => setMobileOpen(false)} />
+      <MobileMenu open={mobileOpen} onClose={() => setMobileOpen(false)} navigate={navigate} />
       <Hero query={query} setQuery={setQuery} />
-      <Features />
+      <Features navigate={navigate} />
       <Catalogue
         query={query}
         activeCat={activeCat}
