@@ -331,7 +331,7 @@ function Navbar({ onToggleMobile, darkMode, toggleDark, navigate }: { onToggleMo
               </button>
             </nav>
             <nav className="hidden md:flex items-center space-x-6">
-              <a href="https://cantilever2.vercel.app" className="text-foreground/80 hover:text-primary smooth-transition hover-lift">
+              <a href="https://mycantilever.in" className="text-foreground/80 hover:text-primary smooth-transition hover-lift">
                 Creators
               </a>
             </nav>
