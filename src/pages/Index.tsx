@@ -32,10 +32,10 @@ import {
 
 // --- Demo data ---------------------------------------------------------------
 const CATEGORIES = [
-  { key: "bim", label: "BIM Families", icon: Boxes },
-  { key: "details", label: "Detail Libraries", icon: Layers },
-  { key: "specs", label: "Spec Templates", icon: FileText },
-  { key: "renders", label: "Render Packs", icon: Sparkles },
+  { key: "bim", label: "House plans", icon: Boxes },
+  { key: "details", label: "Office plans", icon: Layers },
+  { key: "specs", label: "Scenery plans", icon: FileText },
+  { key: "renders", label: "Rural plans", icon: Sparkles },
 ];
 
 const CITY_TAGS = ["Bengaluru", "Hyderabad", "Pune", "Delhi NCR", "Mumbai", "Chennai"]; // for future code-localization filters
@@ -43,7 +43,7 @@ const CITY_TAGS = ["Bengaluru", "Hyderabad", "Pune", "Delhi NCR", "Mumbai", "Che
 const ASSETS = [
   {
     id: "a1",
-    title: "Parametric Door Set — Revit 2024",
+    title: "House - Modern house plan",
     category: "bim",
     price: 29,
     rating: 4.8,
@@ -51,7 +51,7 @@ const ASSETS = [
     cityTags: ["Bengaluru"],
     formats: ["RFA", "RVT"],
     cover:
-      "https://images.unsplash.com/photo-1538688423619-a81d3f23454b?q=80&w=1400&auto=format&fit=crop",
+      "https://cdn.pixabay.com/photo/2014/07/10/17/18/large-home-389271_1280.jpg",
     author: {
       name: "Studio Kinetic",
       avatar:
@@ -62,7 +62,7 @@ const ASSETS = [
   },
   {
     id: "a2",
-    title: "Residential Stair Details (IS:456) — DWG/DXF",
+    title: "House - Rural house plan",
     category: "details",
     price: 39,
     rating: 4.6,
@@ -70,7 +70,7 @@ const ASSETS = [
     cityTags: ["Hyderabad", "Pune"],
     formats: ["DWG", "DXF", "PDF"],
     cover:
-      "https://images.unsplash.com/photo-1519710164239-da123dc03ef4?q=80&w=1400&auto=format&fit=crop",
+      "https://cdn.pixabay.com/photo/2021/10/25/16/33/town-6741493_1280.jpg",
     author: {
       name: "Axis Atelier",
       avatar:
@@ -80,7 +80,7 @@ const ASSETS = [
   },
   {
     id: "a3",
-    title: "Office Fit-out Spec Template — DOCX",
+    title: "Office Design - Office design plan",
     category: "specs",
     price: 24,
     rating: 4.5,
@@ -88,7 +88,7 @@ const ASSETS = [
     cityTags: ["Mumbai", "Delhi NCR"],
     formats: ["DOCX"],
     cover:
-      "https://images.unsplash.com/photo-1524758631624-e2822e304c36?q=80&w=1400&auto=format&fit=crop",
+      "https://cdn.pixabay.com/photo/2012/12/19/18/18/london-71205_1280.jpg",
     author: {
       name: "North Grid",
       avatar:
@@ -98,7 +98,7 @@ const ASSETS = [
   },
   {
     id: "a4",
-    title: "PBR Concrete & Wood — Render Pack",
+    title: "House Interior - House interior plan",
     category: "renders",
     price: 19,
     rating: 4.7,
@@ -315,7 +315,7 @@ function Navbar({ onToggleMobile, darkMode, toggleDark, navigate }: { onToggleMo
                 className="h-7 w-7 grid place-items-center rounded-xl text-white font-bold shadow-sm" 
                 style={{background: 'var(--gradient-primary)'}}
               >
-                <img src="C:\Users\Aman\Desktop\build-block-vault-main\public\logo.png" alt="Cantilever" className="h-7 w-7" />
+                <img src="C:\Users\Aman\Cantilever1\src\components\Logo1.png" alt="Cantilever" className="h-7 w-7" />
               </div>
               <span className="font-semibold tracking-tight">Cantilever</span>
             </div>
@@ -386,8 +386,8 @@ function MobileMenu({ open, onClose, navigate }: { open: boolean; onClose: () =>
             <div 
               className="h-7 w-7 grid place-items-center rounded-xl text-white font-bold" 
               style={{background: 'var(--gradient-primary)'}}
-            >
-              <img src="C:\Users\Aman\Desktop\build-block-vault-main\public\logo.png" alt="Cantilever" className="h-7 w-7" />
+            >              <img src="C:\Users\Aman\Cantilever1\src\components\Logo1.png" alt="Cantilever" className="h-7 w-7" />
+
             </div>
             <span className="font-semibold">Cantilever</span>
           </div>
