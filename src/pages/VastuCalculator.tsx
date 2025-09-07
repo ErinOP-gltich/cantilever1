@@ -33,7 +33,7 @@ type FastAPIResponse = {
 };
 
 // FastAPI Backend Configuration
-const FASTAPI_BASE_URL = 'http://localhost:8000';
+const FASTAPI_BASE_URL = "http://127.0.0.1:8000";
 
 // -----------------------------
 // React component
@@ -100,21 +100,29 @@ export default function VastuAnalyzer() {
         body: formData,
       });
 
+      // --- Read response once ---
+      const data = await response.json();
+
+      // --- Handle backend HTTP errors ---
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        throw new Error(data.error || "Something went wrong");
       }
 
       setProgress(80);
       setStatus('Generating Vastu compliance report...');
 
-      const data: FastAPIResponse = await response.json();
-
-      if (data.error) {
-        throw new Error(data.error);
+      // --- Ensure analyzed_image always exists ---
+      if (!data.analyzed_image) {
+        console.error("Backend did not return analyzed_image", data);
+        setStatus("Analysis failed: no image returned from server");
+        toast.error("Analysis failed: backend did not return analyzed image");
+        return;
       }
 
-      // Update canvas with analyzed image
-      if (data.analyzed_image && canvasRef.current) {
+      console.log("Received image length:", data.analyzed_image.length);
+
+      // --- Update canvas with the analyzed image ---
+      if (canvasRef.current) {
         const canvas = canvasRef.current;
         const ctx = canvas.getContext('2d');
         if (ctx) {
@@ -128,16 +136,31 @@ export default function VastuAnalyzer() {
         }
       }
 
-      // Extract room names for detected labels
-      const roomNames = data.report.details.map(detail => detail.room_name);
-      setDetectedLabels(roomNames);
-      setReport(data.report);
-      setAnalyzedImage(data.analyzed_image);
+      // --- Only update report and labels if report exists ---
+      if (data.report) {
+        const roomNames = data.report.details.map(detail => detail.room_name);
+        setDetectedLabels(roomNames);
+        setReport(data.report);
+        setAnalyzedImage(data.analyzed_image);
 
-      setProgress(100);
-      const score = Math.round((data.report.summary.verified_placements / data.report.summary.total_rooms_analyzed) * 100);
-      setStatus(`Analysis complete — ${data.report.summary.verified_placements}/${data.report.summary.total_rooms_analyzed} correct (${score}%)`);
-      toast.success(`Vastu analysis complete! Score: ${score}%`);
+        const score = Math.round(
+          (data.report.summary.verified_placements / data.report.summary.total_rooms_analyzed) * 100
+        );
+
+        setProgress(100);
+        setStatus(`Analysis complete — ${data.report.summary.verified_placements}/${data.report.summary.total_rooms_analyzed} correct (${score}%)`);
+        toast.success(`Vastu analysis complete! Score: ${score}%`);
+      } else {
+        // --- If no report, safely handle missing details ---
+        setDetectedLabels([]);
+        setReport(null);
+        setAnalyzedImage(data.analyzed_image); // still show the image
+
+        setStatus(data.error || "No rooms detected in the floor plan");
+        toast.error(data.error || "No rooms detected");
+        setProgress(100);
+      }
+
     } catch (err) {
       console.error('Analysis error:', err);
       setStatus('Analysis failed — please ensure the FastAPI backend is running.');
@@ -146,6 +169,7 @@ export default function VastuAnalyzer() {
       setIsAnalyzing(false);
     }
   };
+
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background to-muted/20 p-6">
@@ -248,11 +272,10 @@ export default function VastuAnalyzer() {
               <Card className="glass">
                 <CardHeader>
                   <CardTitle>Vastu Compliance Report</CardTitle>
-                  <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full font-semibold ${
-                    report.summary.verified_placements === report.summary.total_rooms_analyzed 
-                      ? 'bg-green-100 text-green-800' 
+                  <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full font-semibold ${report.summary.verified_placements === report.summary.total_rooms_analyzed
+                      ? 'bg-green-100 text-green-800'
                       : 'bg-orange-100 text-orange-800'
-                  }`}>
+                    }`}>
                     <span>Score: {Math.round((report.summary.verified_placements / report.summary.total_rooms_analyzed) * 100)}%</span>
                     <span>({report.summary.verified_placements}/{report.summary.total_rooms_analyzed} correct)</span>
                   </div>
@@ -274,9 +297,8 @@ export default function VastuAnalyzer() {
                             ) : (
                               <XCircle className="w-4 h-4 text-red-600" />
                             )}
-                            <span className={`text-sm ${
-                              detail.status === 'VERIFIED' ? 'text-green-600' : 'text-red-600'
-                            }`}>
+                            <span className={`text-sm ${detail.status === 'VERIFIED' ? 'text-green-600' : 'text-red-600'
+                              }`}>
                               {detail.status === 'VERIFIED' ? 'Correct placement' : `Should be: ${detail.ideal_locations}`}
                             </span>
                           </div>

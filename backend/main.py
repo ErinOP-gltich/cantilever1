@@ -195,20 +195,23 @@ async def analyze_vastu_plan(file: UploadFile = File(...)):
     
     rooms = perform_nn_ocr(processed_image)
     
-    if not rooms: 
-        return {"error": "Could not detect any recognizable room titles in the image."}
+    # Draw output image even if no rooms detected
+    output_image = draw_visualizations(processed_image, rooms if rooms else [])
+    _, buffer = cv2.imencode('.jpg', output_image)
+    base64_image = base64.b64encode(buffer).decode('utf-8')
+    data_url_image = f"data:image/jpeg;base64,{base64_image}"
+    
+    if not rooms:
+        return {"error": "Could not detect any recognizable room titles in the image.",
+                "analyzed_image": data_url_image}
     
     h_proc, w_proc, _ = processed_image.shape
     located_rooms = [{'location': get_grid_location(r['bbox'], w_proc, h_proc), **r} for r in rooms]
     
     report_data = generate_report_data(located_rooms)
-    output_image = draw_visualizations(processed_image, located_rooms)
-    
-    _, buffer = cv2.imencode('.jpg', output_image)
-    base64_image = base64.b64encode(buffer).decode('utf-8')
-    data_url_image = f"data:image/jpeg;base64,{base64_image}"
     
     return {"report": report_data, "analyzed_image": data_url_image}
+
 
 @app.get("/")
 def read_root(): 
