@@ -82,93 +82,102 @@ export default function VastuAnalyzer() {
   }, []);
 
   const analyzeFloorPlan = async () => {
-    if (!selectedFile) return;
+  if (!selectedFile) return;
 
-    setIsAnalyzing(true);
-    setProgress(10);
-    setStatus('Sending image to neural network for analysis...');
+  setIsAnalyzing(true);
+  setProgress(10);
+  setStatus("Sending image to neural network for analysis...");
 
+  try {
+    const formData = new FormData();
+    formData.append("file", selectedFile);
+
+    setProgress(30);
+    setStatus("Processing with EasyOCR neural network...");
+
+    let response: Response;
     try {
-      const formData = new FormData();
-      formData.append('file', selectedFile);
-
-      setProgress(30);
-      setStatus('Processing with EasyOCR neural network...');
-
-      const response = await fetch(`${FASTAPI_BASE_URL}/analyze/`, {
-        method: 'POST',
+      response = await fetch(`${FASTAPI_BASE_URL}/analyze/`, {
+        method: "POST",
         body: formData,
       });
-
-      // --- Read response once ---
-      const data = await response.json();
-
-      // --- Handle backend HTTP errors ---
-      if (!response.ok) {
-        throw new Error(data.error || "Something went wrong");
-      }
-
-      setProgress(80);
-      setStatus('Generating Vastu compliance report...');
-
-      // --- Ensure analyzed_image always exists ---
-      if (!data.analyzed_image) {
-        console.error("Backend did not return analyzed_image", data);
-        setStatus("Analysis failed: no image returned from server");
-        toast.error("Analysis failed: backend did not return analyzed image");
-        return;
-      }
-
-      console.log("Received image length:", data.analyzed_image.length);
-
-      // --- Update canvas with the analyzed image ---
-      if (canvasRef.current) {
-        const canvas = canvasRef.current;
-        const ctx = canvas.getContext('2d');
-        if (ctx) {
-          const img = new Image();
-          img.onload = () => {
-            canvas.width = img.width;
-            canvas.height = img.height;
-            ctx.drawImage(img, 0, 0);
-          };
-          img.src = data.analyzed_image;
-        }
-      }
-
-      // --- Only update report and labels if report exists ---
-      if (data.report) {
-        const roomNames = data.report.details.map(detail => detail.room_name);
-        setDetectedLabels(roomNames);
-        setReport(data.report);
-        setAnalyzedImage(data.analyzed_image);
-
-        const score = Math.round(
-          (data.report.summary.verified_placements / data.report.summary.total_rooms_analyzed) * 100
-        );
-
-        setProgress(100);
-        setStatus(`Analysis complete — ${data.report.summary.verified_placements}/${data.report.summary.total_rooms_analyzed} correct (${score}%)`);
-        toast.success(`Vastu analysis complete! Score: ${score}%`);
-      } else {
-        // --- If no report, safely handle missing details ---
-        setDetectedLabels([]);
-        setReport(null);
-        setAnalyzedImage(data.analyzed_image); // still show the image
-
-        setStatus(data.error || "No rooms detected in the floor plan");
-        toast.error(data.error || "No rooms detected");
-        setProgress(100);
-      }
-
-    } catch (err) {
-      console.error('Analysis error:', err);
-      setStatus('Analysis failed — please ensure the FastAPI backend is running.');
-      toast.error('Analysis failed. Please check if the backend server is running.');
-    } finally {
-      setIsAnalyzing(false);
+    } catch (networkError) {
+      console.error("Network request failed:", networkError);
+      throw new Error(
+        "Failed to connect to backend. Is the FastAPI server running?"
+      );
     }
-  };
+
+    if (!response.ok) {
+      const text = await response.text();
+      console.error(
+        `Backend returned status ${response.status}:`,
+        text
+      );
+      throw new Error(
+        `Backend error: ${response.status} — see console for details`
+      );
+    }
+
+    const data: FastAPIResponse = await response.json();
+    console.log("Backend response:", data);
+
+    if (!data.analyzed_image) {
+      console.error("Backend did not return analyzed_image", data);
+      setStatus("Analysis failed: no image returned from server");
+      toast.error("Analysis failed: backend did not return analyzed image");
+      return;
+    }
+
+    // Draw analyzed image on canvas
+    if (canvasRef.current) {
+      const canvas = canvasRef.current;
+      const ctx = canvas.getContext("2d");
+      if (ctx) {
+        const img = new Image();
+        img.onload = () => {
+          canvas.width = img.width;
+          canvas.height = img.height;
+          ctx.drawImage(img, 0, 0);
+        };
+        img.src = data.analyzed_image;
+      }
+    }
+
+    if (!data.report?.details) {
+      console.warn("Report details missing:", data.report);
+      setDetectedLabels([]);
+      setReport(null);
+      setAnalyzedImage(data.analyzed_image);
+      setStatus("Analysis completed, but report is incomplete.");
+      toast.warning("Analysis done, but report details are missing.");
+      return;
+    }
+
+    const roomNames = data.report.details.map((detail) => detail.room_name);
+    setDetectedLabels(roomNames);
+    setReport(data.report);
+    setAnalyzedImage(data.analyzed_image);
+
+    setProgress(100);
+    const score = Math.round(
+      (data.report.summary.verified_placements /
+        data.report.summary.total_rooms_analyzed) *
+        100
+    );
+    setStatus(
+      `Analysis complete — ${data.report.summary.verified_placements}/${data.report.summary.total_rooms_analyzed} correct (${score}%)`
+    );
+    toast.success(`Vastu analysis complete! Score: ${score}%`);
+  } catch (err: any) {
+    console.error("Analysis error caught:", err);
+    setStatus(err.message || "Analysis failed — please check backend.");
+    toast.error(err.message || "Analysis failed — check console.");
+  } finally {
+    setIsAnalyzing(false);
+  }
+};
+
 
 
   return (

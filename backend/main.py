@@ -168,22 +168,43 @@ def generate_report_data(located_rooms):
     return report
 
 def draw_visualizations(image, located_rooms):
-   
     h, w, _ = image.shape
     font_scale = max(0.5, 0.7 * (w / 1200))
     thickness = max(1, int(2 * (w / 1200)))
+
+    # Draw 3x3 grid
     for i in range(1, 3):
         cv2.line(image, (int(w * i / 3), 0), (int(w * i / 3), h), (0, 0, 255), thickness)
         cv2.line(image, (0, int(h * i / 3)), (w, int(h * i / 3)), (0, 0, 255), thickness)
+
     for room in located_rooms:
-        x, y, w_box, h_box = room['bbox']
-        location = room['location']
+        # ✅ use .get() so missing keys don’t break the code
+        bbox = room.get("bbox")
+        location = room.get("location", "unknown")
+        text = room.get("text", "Unnamed")
+
+        if not bbox:
+            # skip rooms without bbox
+            print(f"Skipping room without bbox: {room}")
+            continue
+
+        try:
+            x, y, w_box, h_box = bbox
+        except Exception as e:
+            print(f"Invalid bbox format for room {room}: {e}")
+            continue
+
+        # Draw bounding box
         cv2.rectangle(image, (x, y), (x + w_box, y + h_box), (0, 255, 0), thickness)
-        label = f"{room['text'].title()} ({location})"
+
+        # Draw label
+        label = f"{text.title()} ({location})"
         (lw, lh), base = cv2.getTextSize(label, cv2.FONT_HERSHEY_SIMPLEX, font_scale, thickness)
         cv2.rectangle(image, (x, y - lh - 10), (x + lw, y), (0, 255, 0), -1)
         cv2.putText(image, label, (x, y - 5), cv2.FONT_HERSHEY_SIMPLEX, font_scale, (0, 0, 0), thickness)
+
     return image
+
 
 @app.post("/analyze/")
 async def analyze_vastu_plan(file: UploadFile = File(...)):
