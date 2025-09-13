@@ -27,6 +27,10 @@ import {
   Sun,
   Mail,
   Globe,
+  View,
+  Gauge,
+  Glasses,
+  Cylinder,
   Calculator,
 } from "lucide-react";
 
@@ -47,17 +51,17 @@ const ASSETS = [
     category: "bim",
     price: 29,
     rating: 4.8,
-    sales: 321,
+    sales: 7,
     cityTags: ["Bengaluru"],
     formats: ["RFA", "RVT"],
     cover:
       "https://cdn.pixabay.com/photo/2014/07/10/17/18/large-home-389271_1280.jpg",
     author: {
-      name: "Studio Kinetic",
+      name: "Mohan Kumar",
       avatar:
         "https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=300&auto=format&fit=crop",
     },
-    highlights: ["LOD 300", "Handing flip", "FC-based materials"],
+    highlights: ["Stunning exteriors", "Modern design", "Ready to deploy"],
     featured: true,
   },
   {
@@ -66,17 +70,17 @@ const ASSETS = [
     category: "details",
     price: 39,
     rating: 4.6,
-    sales: 198,
+    sales: 8,
     cityTags: ["Hyderabad", "Pune"],
     formats: ["DWG", "DXF", "PDF"],
     cover:
       "https://cdn.pixabay.com/photo/2021/10/25/16/33/town-6741493_1280.jpg",
     author: {
-      name: "Axis Atelier",
+      name: "Reddy Chetan",
       avatar:
         "https://images.unsplash.com/photo-1550525811-e5869dd03032?q=80&w=300&auto=format&fit=crop",
     },
-    highlights: ["Code tagged", "Section/plan/elevations", "Ready-to-print"],
+    highlights: ["Code tagged", "Section/plan/elevations", "Ready to deploy"],
   },
   {
     id: "a3",
@@ -84,17 +88,17 @@ const ASSETS = [
     category: "specs",
     price: 24,
     rating: 4.5,
-    sales: 142,
+    sales: 2,
     cityTags: ["Mumbai", "Delhi NCR"],
-    formats: ["DOCX"],
+    formats: ["DOCX", "PNG", "JPG"],
     cover:
       "https://cdn.pixabay.com/photo/2012/12/19/18/18/london-71205_1280.jpg",
     author: {
-      name: "North Grid",
+      name: "Sprite Works",
       avatar:
         "https://images.unsplash.com/photo-1527980965255-d3b416303d12?q=80&w=300&auto=format&fit=crop",
     },
-    highlights: ["CSI aligned", "Editable clauses", "QA checklist"],
+    highlights: ["Aligned", "Editable clauses", "Ready to deploy"],
   },
   {
     id: "a4",
@@ -102,24 +106,60 @@ const ASSETS = [
     category: "renders",
     price: 19,
     rating: 4.7,
-    sales: 501,
+    sales: 4,
     cityTags: ["Chennai"],
     formats: ["PNG", "JPG", "SBSAR"],
     cover:
-      "https://images.unsplash.com/photo-1554995207-c18c203602cb?q=80&w=1400&auto=format&fit=crop",
+      "https://cdn.pixabay.com/photo/2014/05/26/07/53/blueprint-354233_1280.jpg",
     author: {
-      name: "Render Foundry",
+      name: "Rahul Roy",
       avatar:
         "https://images.unsplash.com/photo-1527980965255-d3b416303d12?q=80&w=300&auto=format&fit=crop",
     },
-    highlights: ["4k maps", "Physically correct", "Material presets"],
+    highlights: ["4k interiors", "Physically correct", "Ready to deploy"],
+  },
+  {
+    id: "a4",
+    title: "House - Riverfront house plan",
+    category: "renders",
+    price: 19,
+    rating: 4.7,
+    sales: 1,
+    cityTags: ["Delhi NCR"],
+    formats: ["PNG", "JPG", "SBSAR"],
+    cover:
+      "https://cdn.pixabay.com/photo/2014/06/17/16/53/blueprint-370588_1280.jpg",
+    author: {
+      name: "Aman Sharma",
+      avatar:
+        "https://images.unsplash.com/photo-1527980965255-d3b416303d12?q=80&w=300&auto=format&fit=crop",
+    },
+    highlights: ["4k maps", "Physically correct", "Ready to deploy"],
+  },
+  {
+    id: "a4",
+    title: "Office Interior - Office interior plan",
+    category: "renders",
+    price: 19,
+    rating: 4.9,
+    sales: 5,
+    cityTags: ["Delhi NCR"],
+    formats: ["PNG", "JPG", "SBSAR"],
+    cover:
+      "https://cdn.pixabay.com/photo/2015/04/20/06/46/office-730681_1280.jpg",
+    author: {
+      name: "Rundy Naidu",
+      avatar:
+        "https://images.unsplash.com/photo-1527980965255-d3b416303d12?q=80&w=300&auto=format&fit=crop",
+    },
+    highlights: ["4k maps", "Physically correct", "Ready to deploy"],
   },
 ];
 
 const CREATOR_BADGES = [
   { icon: ShieldCheck, text: "Verified creator" },
   { icon: Star, text: "Top rated" },
-  { icon: Download, text: "500+ downloads" },
+  { icon: Download, text: "5+ downloads" },
 ];
 
 // --- Small UI helpers --------------------------------------------------------
@@ -430,16 +470,17 @@ function Hero({ query, setQuery }: { query: string; setQuery: (query: string) =>
               animate={{ opacity: 1, y: 0 }}
               className="text-4xl md:text-6xl font-semibold leading-[1.1] tracking-tight"
             >
-              Build faster with premium
-              <span className="bg-clip-text text-transparent" style={{backgroundImage: 'var(--gradient-primary)'}}> architectural assets</span>.
+              Premium store for
+              <span className="bg-clip-text text-transparent" style={{backgroundImage: 'var(--gradient-primary)'}}> Architectural designs</span>
             </motion.h1>
             <p className="mt-5 text-gray-600 dark:text-gray-300 text-base md:text-lg">
-              Discover curated <b>BIM families</b>, <b>detail libraries</b>, <b>spec templates</b>, and <b>render packs</b> — code-tagged and ready to drop into your workflow.
+              Discover curated <b>Exterior plans</b>, <b>Detailed E&P</b>, <b>Interior plans</b>, and <b>Vastu Calculator</b> — code-tagged and ready to ship.
             </p>
             <div className="mt-6 flex flex-wrap items-center gap-3 text-sm text-gray-600 dark:text-gray-300">
               <div className="inline-flex items-center gap-2"><ShieldCheck className="h-4 w-4" /> Verified creators</div>
               <div className="inline-flex items-center gap-2"><Building2 className="h-4 w-4" /> Local code tags</div>
               <div className="inline-flex items-center gap-2"><Download className="h-4 w-4" /> Instant delivery</div>
+              <div className="inline-flex items-center gap-2"><Calculator className="h-4 w-4" /> Vastu Calculator</div>
             </div>
             <div className="mt-8 flex gap-2">
               <div className="relative flex-1 min-w-0">
@@ -447,7 +488,7 @@ function Hero({ query, setQuery }: { query: string; setQuery: (query: string) =>
                 <input
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
-                  placeholder="Search: Revit 2024 door, IS:456 stair detail, office spec..."
+                  placeholder="Search: Exterior plan, Interior plan, office design..."
                   className="w-full rounded-2xl border border-gray-200 dark:border-white/10 bg-white/90 dark:bg-neutral-950/70 pl-10 pr-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
@@ -456,7 +497,7 @@ function Hero({ query, setQuery }: { query: string; setQuery: (query: string) =>
               </PillButton>
             </div>
             <div className="mt-8 grid grid-cols-3 gap-6 text-center">
-              {[{k:"Assets",v:"1,200+"},{k:"Creators",v:"80+"},{k:"Downloads",v:"25k+"}].map(s => (
+              {[{k:"Designs",v:"10+"},{k:"Architects",v:"2+"},{k:"Downloads",v:"5+"}].map(s => (
                 <div key={s.k} className="rounded-2xl glass p-4">
                   <div className="text-2xl font-semibold">{s.v}</div>
                   <div className="text-xs text-gray-500 mt-1">{s.k}</div>
@@ -492,12 +533,12 @@ function Features({ navigate }: { navigate: (path: string) => void }) {
   const items = [
     {
       title: "Rigorous QA",
-      desc: "Every asset reviewed for structure, parameters, performance, and code tags.",
+      desc: "Every design reviewed for structure, parameters, performance, and code tags.",
       icon: ShieldCheck,
     },
     {
-      title: "Built for speed",
-      desc: "LOD-conscious families and ready-to-print details save hours per project.",
+      title: "Built for speed & budget",
+      desc: "Ready-to-build and save hours per project.",
       icon: Sparkles,
     },
     {
@@ -509,6 +550,16 @@ function Features({ navigate }: { navigate: (path: string) => void }) {
       title: "Vastu Calculator",
       desc: "Calculate Vastu parameters for your project.",
       icon: Calculator,
+    },
+    {
+      title: "Stability Checker",
+      desc: "Check the stability of your project.",
+      icon: Gauge,
+    },
+    {
+      title: "VR/AR",
+      desc: "Checkout the project in VR/AR.",
+      icon: Glasses,
     },
   ];
   return (
@@ -547,7 +598,7 @@ function Catalogue({ query, activeCat, setActiveCat, onOpen }: { query: string; 
   return (
     <section id="browse" className="mx-auto max-w-7xl px-4 py-12">
       <div className="flex items-center justify-between mb-4">
-        <h2 className="text-xl md:text-2xl font-semibold">Browse assets</h2>
+        <h2 className="text-xl md:text-2xl font-semibold">Browse designs</h2>
         <div className="hidden md:flex gap-2">
           {CATEGORIES.map(({ key, label, icon: Icon }) => (
             <button
@@ -601,19 +652,19 @@ function Catalogue({ query, activeCat, setActiveCat, onOpen }: { query: string; 
 // --- Creator CTA ------------------------------------------------------------
 function CreatorCTA() {
   return (
-    <section id="creators" className="mx-auto max-w-7xl px-4 py-16">
+    <section id="Designers" className="mx-auto max-w-7xl px-4 py-16">
       <div className="grid md:grid-cols-2 gap-10 items-center">
         <div>
-          <h2 className="text-2xl md:text-3xl font-semibold">Sell your architectural assets on Cantilever</h2>
+          <h2 className="text-2xl md:text-3xl font-semibold">Sell your architectural designs on Cantilever</h2>
           <p className="mt-4 text-gray-600 dark:text-gray-300">
-            Monetize your BIM families, CAD details, spec templates, and render packs. Keep up to 85% revenue, with instant payouts, watermarking, and license controls.
+            Monetize your Exteior and interior designs, CAD details, Detailed E&P maps, and floor plans. Keep up to 85% revenue, with instant payouts, watermarking, and license controls.
           </p>
           <div className="mt-6 flex gap-2">
             <PillButton>
-              <UploadCloud className="h-4 w-4" /> Upload your first asset
+              <UploadCloud className="h-4 w-4" /> Upload your first design
             </PillButton>
             <GhostButton>
-              <User className="h-4 w-4" /> Creator guide
+              <User className="h-4 w-4" /> Designer guide
             </GhostButton>
           </div>
           <ul className="mt-6 grid gap-3 text-sm text-gray-700 dark:text-gray-200">
@@ -647,7 +698,7 @@ function Testimonials() {
   const items = [
     {
       quote:
-        "Cantilever's BIM packs cut our modeling time by ~30%. Quality is consistently high.",
+        "Cantilever's interior designs packs cut our modeling time by ~30%. Quality is consistently high.",
       name: "Anika Rao",
       role: "Associate, AEC Studio",
       avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=300&auto=format&fit=crop",
@@ -655,7 +706,7 @@ function Testimonials() {
     {
       quote:
         "The city-tagged details made approvals smoother. Exactly what our team needed.",
-      name: "Rohit Sharma",
+      name: "Madhan Sharma",
       role: "Principal Architect, Gridline",
       avatar: "https://images.unsplash.com/photo-1550525811-e5869dd03032?q=80&w=300&auto=format&fit=crop",
     },
@@ -687,7 +738,7 @@ function Testimonials() {
 function Pricing() {
   return (
     <section id="pricing" className="mx-auto max-w-7xl px-4 py-16">
-      <h2 className="text-2xl md:text-3xl font-semibold text-center">Simple pricing</h2>
+      <h2 className="text-2xl md:text-3xl font-semibold text-center">Simple pricing (To be updated)</h2>
       <p className="mt-3 text-center text-gray-600 dark:text-gray-300">Buy once, use forever. Optional Pro plan for teams.</p>
       <div className="mt-8 grid md:grid-cols-3 gap-6">
         <div className="rounded-3xl glass p-6">
@@ -703,10 +754,10 @@ function Pricing() {
         </div>
         <div className="rounded-3xl border-2 border-primary p-6 bg-gradient-to-b from-amber-50 to-white dark:from-white/5 dark:to-transparent">
           <div className="text-sm font-medium text-primary">Pro (Teams)</div>
-          <div className="mt-1 text-3xl font-semibold">₹1,999 / user / mo</div>
+          <div className="mt-1 text-3xl font-semibold">₹19,999 / user / mo</div>
           <p className="mt-2 text-sm text-gray-600 dark:text-gray-300">Shared seats, private catalogs, and admin controls.</p>
           <ul className="mt-4 grid gap-2 text-sm">
-            <li className="flex items-center gap-2"><CheckCircle2 className="h-4 w-4" /> Private asset libraries</li>
+            <li className="flex items-center gap-2"><CheckCircle2 className="h-4 w-4" /> Private design libraries</li>
             <li className="flex items-center gap-2"><CheckCircle2 className="h-4 w-4" /> Version pinning</li>
             <li className="flex items-center gap-2"><CheckCircle2 className="h-4 w-4" /> Priority support</li>
           </ul>
@@ -719,9 +770,9 @@ function Pricing() {
           <ul className="mt-4 grid gap-2 text-sm">
             <li className="flex items-center gap-2"><CheckCircle2 className="h-4 w-4" /> Invisible watermarking</li>
             <li className="flex items-center gap-2"><CheckCircle2 className="h-4 w-4" /> Analytics dashboard</li>
-            <li className="flex items-center gap-2"><CheckCircle2 className="h-4 w-4" /> Fast review SLAs</li>
+            <li className="flex items-center gap-2"><CheckCircle2 className="h-4 w-4" /> Fast responses</li>
           </ul>
-          <PillButton className="mt-6 w-full">Become a creator</PillButton>
+          <PillButton className="mt-6 w-full">Become a designer</PillButton>
         </div>
       </div>
     </section>
@@ -746,10 +797,6 @@ function FAQ() {
           {
             q: "Can I request custom changes?",
             a: "Yes. Use the 'Request tweak' option on the asset page to commission the creator.",
-          },
-          {
-            q: "How do payouts work for creators?",
-            a: "Instant payouts to Indian bank accounts via supported processors after each sale.",
           },
           {
             q: "Is there any legal copy protection?",
@@ -782,7 +829,7 @@ function Footer() {
           </div>
           <p className="mt-3 text-gray-600 dark:text-gray-300">The marketplace for architects.</p>
           <div className="mt-4 inline-flex items-center gap-2">
-            <Mail className="h-4 w-4" /> contact@cantilever.dev
+            <Mail className="h-4 w-4" /> support@mycantilever.in
           </div>
         </div>
         <div>
